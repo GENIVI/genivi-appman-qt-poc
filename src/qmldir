@@ -1,0 +1,3 @@
+module GeniviAppFw
+plugin geniviappfwplugin
+classname GeniviAppFwPlugin
