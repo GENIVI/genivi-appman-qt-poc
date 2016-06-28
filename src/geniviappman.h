@@ -21,13 +21,58 @@
 #define GENIVIAPPMAN_H
 
 #include <QObject>
+#include <QAbstractItemModel>
+
+#include "geniviappmaninfo.h"
+
+class GeniviAppManInterface : public QObject
+{
+    Q_OBJECT
+
+public:
+    explicit GeniviAppManInterface(QObject *parent = 0);
+
+    void setAppIds(QStringList appIds);
+
+public slots:
+    GeniviAppInfo GetAppInfo(const QString &_app_id);
+    QStringList GetInstalledApps();
+    void LaunchApp(const QString &_app_id);
+    uint getInterfaceVersion();
+
+signals:
+    void AppsInfoUpdated();
+
+    void onLaunchApp(const QString &app_id);
+
+private:
+    QStringList m_appIds;
+};
 
 class GeniviAppMan : public QObject
 {
     Q_OBJECT
 
+    Q_PROPERTY(QAbstractItemModel* model READ model WRITE setModel NOTIFY modelChanged)
+
 public:
     explicit GeniviAppMan(QObject *parent = 0);
+
+    QAbstractItemModel *model() const;
+
+public slots:
+    void setModel(QAbstractItemModel *model);
+
+signals:
+    void modelChanged(QAbstractItemModel *model);
+    void launchApplication(const QString &id);
+
+private slots:
+    void onModelChanged();
+
+private:
+    QAbstractItemModel *m_model;
+    GeniviAppManInterface *m_interface;
 };
 
 #endif // GENIVIAPPMAN_H

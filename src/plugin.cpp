@@ -19,8 +19,18 @@
 
 #include <QtQml/qqmlextensionplugin.h>
 #include <qqml.h>
+#include <QDBusMetaType>
 
 #include "geniviappman.h"
+
+static QObject *geniviappman_singletontype_provider(QQmlEngine *engine, QJSEngine *jsEngine)
+{
+    Q_UNUSED(engine)
+    Q_UNUSED(jsEngine)
+
+    GeniviAppMan *inst = new GeniviAppMan();
+    return inst;
+}
 
 class GeniviAppFwPlugin : public QQmlExtensionPlugin
 {
@@ -32,7 +42,9 @@ public:
         Q_ASSERT(QLatin1String(uri) == QLatin1String("GeniviAppFw"));
         Q_UNUSED(uri);
 
-        qmlRegisterType<GeniviAppMan>(uri, 1, 0, "GeniviAppMan");
+        qDBusRegisterMetaType<GeniviAppInfo>();
+
+        qmlRegisterSingletonType<GeniviAppMan>(uri, 1, 0, "GeniviAppMan", geniviappman_singletontype_provider);
     }
 };
 

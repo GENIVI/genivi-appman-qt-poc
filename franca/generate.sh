@@ -24,10 +24,10 @@ echo '</interface></node>' >> gen/dbus-introspection.xml
 # Annotate introspection XML to allow the Qt code generator to work
 read -r AWKEXPR << EOE
 {print} \
-/\(sa\{ss\}\)/ {print "<annotation name=\"org.qtproject.QtDBus.QtTypeName.Out0\" value=\"AppInfo\" />"}
+/\(sa\{ss\}\)/ {print "<annotation name=\"org.qtproject.QtDBus.QtTypeName.Out0\" value=\"GeniviAppInfo\" />"}
 EOE
 
 cat gen/dbus-introspection.xml | awk "$AWKEXPR" > gen/qt-dbus-introspection.xml
 
 # Generate Qt adaptor
-qdbusxml2cpp -a gen/appmanagercore gen/qt-dbus-introspection.xml
+qdbusxml2cpp -i geniviappmaninfo.h -a gen/appmanagercore gen/qt-dbus-introspection.xml

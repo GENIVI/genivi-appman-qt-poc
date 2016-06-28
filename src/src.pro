@@ -1,12 +1,18 @@
 TEMPLATE = lib
 CONFIG += qt plugin
-QT += qml
+QT += qml dbus
 
 TARGET = geniviappfw
 DESTDIR = ../imports/GeniviAppFw
 
-SOURCES = geniviappman.cpp plugin.cpp
-HEADERS = geniviappman.h
+INCLUDEPATH += ../franca/
+
+SOURCES = plugin.cpp \
+          geniviappman.cpp \
+          ../franca/gen/appmanagercore.cpp
+
+HEADERS = geniviappman.h \
+          ../franca/gen/appmanagercore.h
 
 qml_files = qmldir
 OTHER_FILES += $$qml_files

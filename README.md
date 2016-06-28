@@ -28,6 +28,43 @@ make
 make install
 ```
 
+Running Locally
+---------------
+
+If you want to test the example without having to install it, a very basic
+example implementation is provided.
+
+This example provides a stubbed implementation of the application database and
+can be run standalone using the qmlscene tool.
+
+To run the example locally, i.e. without installing the plugin, you first have
+to copy the `qmldir` file into the `imports` directory:
+
+```
+cp src/qmldir imports/GeniviAppFw/
+```
+
+Having done this, you launch the example and specify that the local `imports`
+directory is a QML import path.
+
+```
+qmlscene -I ./imports example/example.qml
+```
+
+You can now access the interface over d-bus using dbus-send, e.g.:
+
+```
+$ dbus-send --print-reply --session --dest=org.genivi.appfw /org/genivi/appfw/AppManager_Core org.genivi.appfw.AppManager_Core.GetInstalledApps
+method return time=1467869897.358102 sender=:1.423 -> destination=:1.428 serial=15 reply_serial=2
+   array [
+      string "org.genivi.TunerAMFM"
+      string "org.genivi.TunerDAB"
+      string "org.genivi.Navigation"
+      string "org.genivi.Settings"
+      string "org.genivi.Telephone"
+   ]
+```
+
 Licenses
 --------
 
