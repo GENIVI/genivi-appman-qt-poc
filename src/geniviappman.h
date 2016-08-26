@@ -35,13 +35,13 @@ public:
     void setAppIds(QStringList appIds);
 
 public slots:
-    GeniviAppInfo GetAppInfo(const QString &_app_id);
-    QStringList GetInstalledApps();
-    void LaunchApp(const QString &_app_id);
+    GeniviAppInfo getAppInfo(const QString &_app_id);
+    QStringList getInstalledApps();
+    void launchApp(const QString &_app_id);
     uint getInterfaceVersion();
 
 signals:
-    void AppsInfoUpdated();
+    void appsInfoUpdated();
 
     void onLaunchApp(const QString &app_id);
 

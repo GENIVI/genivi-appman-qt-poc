@@ -25,43 +25,43 @@ class QVariant;
 QT_END_NAMESPACE
 
 /*
- * Adaptor class for interface org.genivi.appfw.AppManager_Core
+ * Adaptor class for interface org.genivi.appfw.AppManagerCore
  */
-class AppManager_CoreAdaptor: public QDBusAbstractAdaptor
+class AppManagerCoreAdaptor: public QDBusAbstractAdaptor
 {
     Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "org.genivi.appfw.AppManager_Core")
+    Q_CLASSINFO("D-Bus Interface", "org.genivi.appfw.AppManagerCore")
     Q_CLASSINFO("D-Bus Introspection", ""
-"  <interface name=\"org.genivi.appfw.AppManager_Core\">\n"
+"  <interface name=\"org.genivi.appfw.AppManagerCore\">\n"
 "    <method name=\"getInterfaceVersion\">\n"
 "      <arg direction=\"out\" type=\"uu\" name=\"value\"/>\n"
 "    </method>\n"
-"    <signal name=\"AppsInfoUpdated\"/>\n"
-"    <method name=\"GetInstalledApps\">\n"
-"      <arg direction=\"out\" type=\"as\" name=\"_app_ids\"/>\n"
+"    <signal name=\"appsInfoUpdated\"/>\n"
+"    <method name=\"getInstalledApps\">\n"
+"      <arg direction=\"out\" type=\"as\" name=\"_AppIds\"/>\n"
 "    </method>\n"
-"    <method name=\"GetAppInfo\">\n"
-"      <arg direction=\"in\" type=\"s\" name=\"_app_id\"/>\n"
-"      <arg direction=\"out\" type=\"(sa{ss})\" name=\"_info\"/>\n"
+"    <method name=\"getAppInfo\">\n"
+"      <arg direction=\"in\" type=\"s\" name=\"_AppId\"/>\n"
+"      <arg direction=\"out\" type=\"(a{ss})\" name=\"_Info\"/>\n"
 "      <annotation value=\"GeniviAppInfo\" name=\"org.qtproject.QtDBus.QtTypeName.Out0\"/>\n"
 "    </method>\n"
-"    <method name=\"LaunchApp\">\n"
-"      <arg direction=\"in\" type=\"s\" name=\"_app_id\"/>\n"
+"    <method name=\"launchApp\">\n"
+"      <arg direction=\"in\" type=\"s\" name=\"_AppId\"/>\n"
 "    </method>\n"
 "  </interface>\n"
         "")
 public:
-    AppManager_CoreAdaptor(QObject *parent);
-    virtual ~AppManager_CoreAdaptor();
+    AppManagerCoreAdaptor(QObject *parent);
+    virtual ~AppManagerCoreAdaptor();
 
 public: // PROPERTIES
 public Q_SLOTS: // METHODS
-    GeniviAppInfo GetAppInfo(const QString &_app_id);
-    QStringList GetInstalledApps();
-    void LaunchApp(const QString &_app_id);
+    GeniviAppInfo getAppInfo(const QString &_AppId);
+    QStringList getInstalledApps();
     uint getInterfaceVersion();
+    void launchApp(const QString &_AppId);
 Q_SIGNALS: // SIGNALS
-    void AppsInfoUpdated();
+    void appsInfoUpdated();
 };
 
 #endif

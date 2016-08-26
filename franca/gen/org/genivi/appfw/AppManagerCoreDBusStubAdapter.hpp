@@ -8,14 +8,20 @@
 * http://mozilla.org/MPL/2.0/.
 */
 /**
- * description: This interface is exposed by app manager to privileged apps
+ * description: App manager interfaces to privileged apps.This interface exposes information
+ *   about the installed and running 
+	applications. It shall typically be exposed
+ *   by App Manager only to privileged apps/processes that would need such
+ *   information.
+	An example is a Launcher process which would need information
+ *   provided by this interface
  */
-#ifndef ORG_GENIVI_APPFW_App_Manager__Core_DBUS_STUB_ADAPTER_HPP_
-#define ORG_GENIVI_APPFW_App_Manager__Core_DBUS_STUB_ADAPTER_HPP_
+#ifndef ORG_GENIVI_APPFW_App_Manager_Core_DBUS_STUB_ADAPTER_HPP_
+#define ORG_GENIVI_APPFW_App_Manager_Core_DBUS_STUB_ADAPTER_HPP_
 
-#include <org/genivi/appfw/AppManager_CoreStub.hpp>
-#include "org/genivi/appfw/AppManager_CoreDBusDeployment.hpp"        
-#include <org/genivi/appfw/AppManager_CoreDBusDeployment.hpp>        
+#include <org/genivi/appfw/AppManagerCoreStub.hpp>
+#include "org/genivi/appfw/AppManagerCoreDBusDeployment.hpp"        
+#include <org/genivi/appfw/AppManagerCoreDBusDeployment.hpp>        
 
 #if !defined (COMMONAPI_INTERNAL_COMPILATION)
 #define COMMONAPI_INTERNAL_COMPILATION
@@ -33,57 +39,59 @@ namespace org {
 namespace genivi {
 namespace appfw {
 
-typedef CommonAPI::DBus::DBusStubAdapterHelper<AppManager_CoreStub> AppManager_CoreDBusStubAdapterHelper;
+typedef CommonAPI::DBus::DBusStubAdapterHelper<AppManagerCoreStub> AppManagerCoreDBusStubAdapterHelper;
 
-class AppManager_CoreDBusStubAdapterInternal
-    : public virtual AppManager_CoreStubAdapter,
-      public AppManager_CoreDBusStubAdapterHelper
+class AppManagerCoreDBusStubAdapterInternal
+    : public virtual AppManagerCoreStubAdapter,
+      public AppManagerCoreDBusStubAdapterHelper
 {
 public:
-    AppManager_CoreDBusStubAdapterInternal(
+    AppManagerCoreDBusStubAdapterInternal(
             const CommonAPI::DBus::DBusAddress &_address,
             const std::shared_ptr<CommonAPI::DBus::DBusProxyConnection> &_connection,
             const std::shared_ptr<CommonAPI::StubBase> &_stub);
 
-    ~AppManager_CoreDBusStubAdapterInternal();
+    ~AppManagerCoreDBusStubAdapterInternal();
 
     virtual bool hasFreedesktopProperties();
 
     inline static const char* getInterface() {
-        return AppManager_Core::getInterface();
+        return AppManagerCore::getInterface();
     }
 
 
     /**
-     * description: This should signal the addition or deletion of new apps, change in capability
-     *   of apps to handle mimes etc. It si adviced to call GetAppMimeTable and
-     *   GetInstalledApps as needed when this broadcast is received.
+     * description: This broadcast is emitted whenever there is addition or deletion of apps,
+     *   change in capability of 
+    		apps to handle mimes or similar changes.It is
+     *   recommended to call getInstalledApps and getAppInfo (on interested apps)
+    		as
+     *   needed when this broadcast is received.
      */
     void fireAppsInfoUpdatedEvent();
 
 
-    const AppManager_CoreDBusStubAdapterHelper::StubDispatcherTable& getStubDispatcherTable();
+    const AppManagerCoreDBusStubAdapterHelper::StubDispatcherTable& getStubDispatcherTable();
     const CommonAPI::DBus::StubAttributeTable& getStubAttributeTable();
 
     void deactivateManagedInstances();
     
 
 static CommonAPI::DBus::DBusGetAttributeStubDispatcher<
-        ::org::genivi::appfw::AppManager_CoreStub,
+        ::org::genivi::appfw::AppManagerCoreStub,
         CommonAPI::Version
-        > getAppManager_CoreInterfaceVersionStubDispatcher;
+        > getAppManagerCoreInterfaceVersionStubDispatcher;
 
 
 
 /**
- * description: a function to enumerate all apps in the system. It returns an array of app IDs
- *   which are reverse DNS style names 
-		stored by app manager during app
- *   installation
+ * description: This method returns an array of app IDs which are reverse DNS style names
+ *   stored by app manager 
+		during app installation
  */
 
 static CommonAPI::DBus::DBusMethodWithReplyStubDispatcher<
-    ::org::genivi::appfw::AppManager_CoreStub,
+    ::org::genivi::appfw::AppManagerCoreStub,
     std::tuple<>,
     std::tuple<std::vector<std::string>>,
     std::tuple<>,
@@ -92,26 +100,27 @@ static CommonAPI::DBus::DBusMethodWithReplyStubDispatcher<
     > getInstalledAppsStubDispatcher;
 /**
  * description: This method provides the information of the app from manifest data encapsulated
- *   in the AppInfo struct
-		app_id is a reverse DNS style name of the app which
- *   should be a part of manifest information
+ *   in the AppInfo struct.
+		AppId is a reverse DNS style name of the app which
+ *   should be a part of manifest information.
  */
 
 static CommonAPI::DBus::DBusMethodWithReplyStubDispatcher<
-    ::org::genivi::appfw::AppManager_CoreStub,
+    ::org::genivi::appfw::AppManagerCoreStub,
     std::tuple<std::string>,
-    std::tuple<AppManager_Core::AppInfo>,
+    std::tuple<AppManagerCore::AppInfo>,
     std::tuple<CommonAPI::DBus::StringDeployment>,
-    std::tuple<AppManager_Core_::AppInfoDeployment_t>
+    std::tuple<AppManagerCore_::AppInfoDeployment_t>
     
     > getAppInfoStubDispatcher;
 /**
- * description: launch an app using the app_id. App manager resolves the app_id to an entry
- *   point and launches it.
+ * description: This method launches an app using the AppId. App manager resolves the AppId to
+ *   an entry point 
+		and launches it.
  */
 
 static CommonAPI::DBus::DBusMethodWithReplyStubDispatcher<
-    ::org::genivi::appfw::AppManager_CoreStub,
+    ::org::genivi::appfw::AppManagerCoreStub,
     std::tuple<std::string>,
     std::tuple<>,
     std::tuple<CommonAPI::DBus::StringDeployment>,
@@ -126,15 +135,15 @@ static CommonAPI::DBus::DBusMethodWithReplyStubDispatcher<
     virtual const char* getMethodsDBusIntrospectionXmlData() const;
 
  private:
-    AppManager_CoreDBusStubAdapterHelper::StubDispatcherTable stubDispatcherTable_;
+    AppManagerCoreDBusStubAdapterHelper::StubDispatcherTable stubDispatcherTable_;
     CommonAPI::DBus::StubAttributeTable stubAttributeTable_;
 };
 
-class AppManager_CoreDBusStubAdapter
-    : public AppManager_CoreDBusStubAdapterInternal,
-      public std::enable_shared_from_this<AppManager_CoreDBusStubAdapter> {
+class AppManagerCoreDBusStubAdapter
+    : public AppManagerCoreDBusStubAdapterInternal,
+      public std::enable_shared_from_this<AppManagerCoreDBusStubAdapter> {
 public:
-    AppManager_CoreDBusStubAdapter(
+    AppManagerCoreDBusStubAdapter(
     	const CommonAPI::DBus::DBusAddress &_address,
         const std::shared_ptr<CommonAPI::DBus::DBusProxyConnection> &_connection,
         const std::shared_ptr<CommonAPI::StubBase> &_stub)
@@ -142,7 +151,7 @@ public:
     		_address, 
     		_connection,
             false),
-          AppManager_CoreDBusStubAdapterInternal(
+          AppManagerCoreDBusStubAdapterInternal(
           	_address, 
           	_connection, 
           	_stub) { 
@@ -153,4 +162,4 @@ public:
 } // namespace genivi
 } // namespace org
 
-#endif // ORG_GENIVI_APPFW_App_Manager__Core_DBUS_STUB_ADAPTER_HPP_
+#endif // ORG_GENIVI_APPFW_App_Manager_Core_DBUS_STUB_ADAPTER_HPP_

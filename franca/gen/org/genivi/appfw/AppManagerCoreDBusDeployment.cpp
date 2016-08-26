@@ -7,12 +7,12 @@
 * If a copy of the MPL was not distributed with this file, You can obtain one at
 * http://mozilla.org/MPL/2.0/.
 */
-#include "AppManager_CoreDBusDeployment.hpp"
+#include "AppManagerCoreDBusDeployment.hpp"
 
 namespace org {
 namespace genivi {
 namespace appfw {
-namespace AppManager_Core_ {
+namespace AppManagerCore_ {
 
 // Type-specific deployments
 
@@ -22,7 +22,7 @@ namespace AppManager_Core_ {
 
 // Broadcast-specific deployments
  
-} // namespace AppManager_Core_
+} // namespace AppManagerCore_
 } // namespace appfw
 } // namespace genivi
 } // namespace org

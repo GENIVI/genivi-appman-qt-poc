@@ -1,17 +1,17 @@
-<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd"><node name="/org/genivi/appfw/appmanager"><interface name="org.genivi.appfw.AppManager_Core">
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd"><node name="/org/genivi/appfw/appmanager"><interface name="org.genivi.appfw.AppManagerCore">
 <method name="getInterfaceVersion">
 <arg name="value" type="uu" direction="out" />
 </method>
-<signal name="AppsInfoUpdated">
+<signal name="appsInfoUpdated">
 </signal>
-<method name="GetInstalledApps">
-<arg name="_app_ids" type="as" direction="out" />
+<method name="getInstalledApps">
+<arg name="_AppIds" type="as" direction="out" />
 </method>
-<method name="GetAppInfo">
-<arg name="_app_id" type="s" direction="in" />
-<arg name="_info" type="(sa{ss})" direction="out" />
+<method name="getAppInfo">
+<arg name="_AppId" type="s" direction="in" />
+<arg name="_Info" type="(a{ss})" direction="out" />
 </method>
-<method name="LaunchApp">
-<arg name="_app_id" type="s" direction="in" />
+<method name="launchApp">
+<arg name="_AppId" type="s" direction="in" />
 </method>
 </interface></node>

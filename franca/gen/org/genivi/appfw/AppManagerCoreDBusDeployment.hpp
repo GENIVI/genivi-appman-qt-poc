@@ -8,10 +8,10 @@
 * http://mozilla.org/MPL/2.0/.
 */
 
-#ifndef ORG_GENIVI_APPFW_App_Manager__Core_DBUS_DEPLOYMENT_HPP_
-#define ORG_GENIVI_APPFW_App_Manager__Core_DBUS_DEPLOYMENT_HPP_
+#ifndef ORG_GENIVI_APPFW_App_Manager_Core_DBUS_DEPLOYMENT_HPP_
+#define ORG_GENIVI_APPFW_App_Manager_Core_DBUS_DEPLOYMENT_HPP_
 
-#include <org/genivi/appfw/AppManager_CoreDBusDeployment.hpp>        
+#include <org/genivi/appfw/AppManagerCoreDBusDeployment.hpp>        
 
 
 #if !defined (COMMONAPI_INTERNAL_COMPILATION)
@@ -23,11 +23,10 @@
 namespace org {
 namespace genivi {
 namespace appfw {
-namespace AppManager_Core_ {
+namespace AppManagerCore_ {
 
 // Interface-specific deployment types
 typedef CommonAPI::DBus::StructDeployment<
-    CommonAPI::DBus::StringDeployment,
     CommonAPI::MapDeployment<
         CommonAPI::DBus::StringDeployment,
         CommonAPI::DBus::StringDeployment
@@ -49,9 +48,9 @@ typedef CommonAPI::MapDeployment<
 // Broadcast-specific deployments
 
 
-} // namespace AppManager_Core_
+} // namespace AppManagerCore_
 } // namespace appfw
 } // namespace genivi
 } // namespace org
 
-#endif // ORG_GENIVI_APPFW_App_Manager__Core_DBUS_DEPLOYMENT_HPP_
+#endif // ORG_GENIVI_APPFW_App_Manager_Core_DBUS_DEPLOYMENT_HPP_

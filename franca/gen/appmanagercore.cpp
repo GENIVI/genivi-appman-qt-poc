@@ -18,48 +18,48 @@
 #include <QtCore/QVariant>
 
 /*
- * Implementation of adaptor class AppManager_CoreAdaptor
+ * Implementation of adaptor class AppManagerCoreAdaptor
  */
 
-AppManager_CoreAdaptor::AppManager_CoreAdaptor(QObject *parent)
+AppManagerCoreAdaptor::AppManagerCoreAdaptor(QObject *parent)
     : QDBusAbstractAdaptor(parent)
 {
     // constructor
     setAutoRelaySignals(true);
 }
 
-AppManager_CoreAdaptor::~AppManager_CoreAdaptor()
+AppManagerCoreAdaptor::~AppManagerCoreAdaptor()
 {
     // destructor
 }
 
-GeniviAppInfo AppManager_CoreAdaptor::GetAppInfo(const QString &_app_id)
+GeniviAppInfo AppManagerCoreAdaptor::getAppInfo(const QString &_AppId)
 {
-    // handle method call org.genivi.appfw.AppManager_Core.GetAppInfo
-    GeniviAppInfo _info;
-    QMetaObject::invokeMethod(parent(), "GetAppInfo", Q_RETURN_ARG(GeniviAppInfo, _info), Q_ARG(QString, _app_id));
-    return _info;
+    // handle method call org.genivi.appfw.AppManagerCore.getAppInfo
+    GeniviAppInfo _Info;
+    QMetaObject::invokeMethod(parent(), "getAppInfo", Q_RETURN_ARG(GeniviAppInfo, _Info), Q_ARG(QString, _AppId));
+    return _Info;
 }
 
-QStringList AppManager_CoreAdaptor::GetInstalledApps()
+QStringList AppManagerCoreAdaptor::getInstalledApps()
 {
-    // handle method call org.genivi.appfw.AppManager_Core.GetInstalledApps
-    QStringList _app_ids;
-    QMetaObject::invokeMethod(parent(), "GetInstalledApps", Q_RETURN_ARG(QStringList, _app_ids));
-    return _app_ids;
+    // handle method call org.genivi.appfw.AppManagerCore.getInstalledApps
+    QStringList _AppIds;
+    QMetaObject::invokeMethod(parent(), "getInstalledApps", Q_RETURN_ARG(QStringList, _AppIds));
+    return _AppIds;
 }
 
-void AppManager_CoreAdaptor::LaunchApp(const QString &_app_id)
+uint AppManagerCoreAdaptor::getInterfaceVersion()
 {
-    // handle method call org.genivi.appfw.AppManager_Core.LaunchApp
-    QMetaObject::invokeMethod(parent(), "LaunchApp", Q_ARG(QString, _app_id));
-}
-
-uint AppManager_CoreAdaptor::getInterfaceVersion()
-{
-    // handle method call org.genivi.appfw.AppManager_Core.getInterfaceVersion
+    // handle method call org.genivi.appfw.AppManagerCore.getInterfaceVersion
     uint value;
     QMetaObject::invokeMethod(parent(), "getInterfaceVersion", Q_RETURN_ARG(uint, value));
     return value;
+}
+
+void AppManagerCoreAdaptor::launchApp(const QString &_AppId)
+{
+    // handle method call org.genivi.appfw.AppManagerCore.launchApp
+    QMetaObject::invokeMethod(parent(), "launchApp", Q_ARG(QString, _AppId));
 }
 

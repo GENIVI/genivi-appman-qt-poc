@@ -19,6 +19,14 @@ management concepts are compatible with the GENIVI standard.
 Building
 --------
 
+The repositor contains a git submodule where the Franca interfaces are
+referenced. Thus, run the following commands first to clone the submodule:
+
+```
+git submodule init
+git submodule update
+```
+
 This is a standard qmake project, simply run the following commands to build
 and install:
 
@@ -51,10 +59,11 @@ directory is a QML import path.
 qmlscene -I ./imports example/example.qml
 ```
 
-You can now access the interface over d-bus using dbus-send, e.g.:
+You can now access the interface over d-bus using dbus-send, e.g. listing the
+installed apps:
 
 ```
-$ dbus-send --print-reply --session --dest=org.genivi.appfw /org/genivi/appfw/AppManager_Core org.genivi.appfw.AppManager_Core.GetInstalledApps
+$ dbus-send --print-reply --session --dest=org.genivi.appfw /org/genivi/appfw/AppManagerCore org.genivi.appfw.AppManagerCore.getInstalledApps
 method return time=1467869897.358102 sender=:1.423 -> destination=:1.428 serial=15 reply_serial=2
    array [
       string "org.genivi.TunerAMFM"
@@ -63,6 +72,33 @@ method return time=1467869897.358102 sender=:1.423 -> destination=:1.428 serial=
       string "org.genivi.Settings"
       string "org.genivi.Telephone"
    ]
+```
+
+Getting information about a specific application:
+
+```
+$ dbus-send --print-reply --session --dest=org.genivi.appfw /org/genivi/appfw/AppManagerCore org.genivi.appfw.AppManagerCore.getAppInfo string:"org.genivi.Settings"
+method return time=1472211399.493666 sender=:1.270 -> destination=:1.273 serial=11 reply_serial=2
+   struct {
+      array [
+         dict entry(
+            string "appId"
+            string "org.genivi.Settings"
+         )
+      ]
+   }
+```
+
+Launching an application:
+
+```
+dbus-send --print-reply --session --dest=org.genivi.appfw /org/genivi/appfw/AppManagerCore org.genivi.appfw.AppManagerCore.launchApp string:"org.genivi.Settings"
+```
+
+Resulting in the following output from the demo applications:
+
+```
+qml: Launching org.genivi.Settings
 ```
 
 Licenses

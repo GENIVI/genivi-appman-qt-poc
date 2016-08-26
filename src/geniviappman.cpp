@@ -26,7 +26,6 @@
 QDBusArgument &operator<<(QDBusArgument &argument, const GeniviAppInfo &info)
 {
     argument.beginStructure();
-    argument << info.appId;
     argument.beginMap(QVariant::String, QVariant::String);
     foreach(QString k, info.values.keys())
     {
@@ -43,7 +42,6 @@ QDBusArgument &operator<<(QDBusArgument &argument, const GeniviAppInfo &info)
 const QDBusArgument &operator>>(const QDBusArgument &argument, GeniviAppInfo &info)
 {
     argument.beginStructure();
-    argument >> info.appId;
     argument.beginMap();
     info.values.clear();
     foreach(QString k, info.values.keys())
@@ -61,27 +59,27 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, GeniviAppInfo &in
 }
 
 /*
- * GENIVI AppManager_Core interface facade implementation
+ * GENIVI AppManagerCore interface facade implementation
  */
 GeniviAppManInterface::GeniviAppManInterface(QObject *parent)
     : QObject(parent)
 {
-    new AppManager_CoreAdaptor(this);
+    new AppManagerCoreAdaptor(this);
 
     QDBusConnection::sessionBus().registerService("org.genivi.appfw");
-    QDBusConnection::sessionBus().registerObject("/org/genivi/appfw/AppManager_Core", this);
+    QDBusConnection::sessionBus().registerObject("/org/genivi/appfw/AppManagerCore", this);
 }
 
 void GeniviAppManInterface::setAppIds(QStringList appIds)
 {
     m_appIds = appIds;
-    emit AppsInfoUpdated();
+    emit appsInfoUpdated();
 }
 
-GeniviAppInfo GeniviAppManInterface::GetAppInfo(const QString &_app_id)
+GeniviAppInfo GeniviAppManInterface::getAppInfo(const QString &_app_id)
 {
     GeniviAppInfo res;
-    res.appId = _app_id;
+    res.values["appId"] = _app_id;
 
     // TODO populate key/values
     // TODO how to react on a non-existent app?
@@ -89,12 +87,12 @@ GeniviAppInfo GeniviAppManInterface::GetAppInfo(const QString &_app_id)
     return res;
 }
 
-QStringList GeniviAppManInterface::GetInstalledApps()
+QStringList GeniviAppManInterface::getInstalledApps()
 {
     return m_appIds;
 }
 
-void GeniviAppManInterface::LaunchApp(const QString &_app_id)
+void GeniviAppManInterface::launchApp(const QString &_app_id)
 {
     emit onLaunchApp(_app_id);
 }
@@ -128,9 +126,11 @@ void GeniviAppMan::setModel(QAbstractItemModel *model)
     if (model == m_model)
         return;
 
-    disconnect(m_model, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(onModelChanged()));
-    disconnect(m_model, SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(onModelChanged()));
-    disconnect(m_model, SIGNAL(modelReset()), this, SLOT(onModelChanged()));
+    if (m_model) {
+        disconnect(m_model, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(onModelChanged()));
+        disconnect(m_model, SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(onModelChanged()));
+        disconnect(m_model, SIGNAL(modelReset()), this, SLOT(onModelChanged()));
+    }
 
     m_model = model;
 
